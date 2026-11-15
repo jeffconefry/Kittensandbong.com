@@ -42,7 +42,7 @@ The job is safe to repeat: the `days` row stops a second pick, and each subscrib
 Build and push from a working copy with git and node_modules (for example
 `S:\CLAUDE\KITTENSANDBONGS\site`), not the Synology Drive mirror.
 
-1. **Repo.** `npm install`, then create a private GitHub repo `jeffconefry/kittensandbongs.com` and push.
+1. **Repo.** Clone `jeffconefry/Kittensandbong.com` and run `npm install`.
 2. **Database.**
    ```sh
    npx wrangler d1 create kittensandbongs
