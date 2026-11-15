@@ -17,8 +17,7 @@
     {
       "binding": "DB",
       "database_name": "kittensandbongs",
-      // Replace with the id printed by: npx wrangler d1 create kittensandbongs
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "758f19f0-e023-48c6-800e-34d1f314f9fb",
       "migrations_dir": "migrations"
     }
   ],
