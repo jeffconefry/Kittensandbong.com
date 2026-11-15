@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+export const prerender = true;
+---
+
+<Base title="Privacy · Kittens & Bongs">
+  <article class="prose">
+    <h1>Privacy</h1>
+    <p>Short version: we keep your email address so we can send you the daily pair, and that’s it.</p>
+    <h2>What we store</h2>
+    <ul>
+      <li>Your email address, when you signed up, confirmed and (if you do) unsubscribed.</li>
+      <li>Which day’s email we last sent you, so nobody gets the same day twice.</li>
+    </ul>
+    <h2>What we don’t do</h2>
+    <ul>
+      <li>We don’t sell, rent or share the list.</li>
+      <li>No ad trackers or analytics cookies. The site remembers your “I’m 21+” answer in your own browser only.</li>
+    </ul>
+    <h2>Services involved</h2>
+    <p>
+      The site runs on Cloudflare. Daily emails go out through an email delivery service. Photos load from Pexels.
+      Signup uses Cloudflare Turnstile to keep bots off the list.
+    </p>
+    <h2>Leaving</h2>
+    <p>
+      Every email has a one-click unsubscribe link. To have your address deleted entirely, reply to any daily email and
+      ask.
+    </p>
+  </article>
+</Base>

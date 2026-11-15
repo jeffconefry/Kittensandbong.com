@@ -1,0 +1,63 @@
+---
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const status = Astro.url.searchParams.get('signup');
+const messages: Record<string, string> = {
+  invalid: 'That email address doesn’t look right. Try again?',
+  verify: 'We couldn’t verify you’re human. Try again?',
+  error: 'Something went wrong sending the confirmation email. Try again in a bit.',
+};
+const message = status ? messages[status] : undefined;
+---
+
+<section id="signup" class="signup">
+  <div>
+    <h2>Get it in your inbox</h2>
+    <p class="note">One email every morning: a kitten and a bong. Unsubscribe with one click.</p>
+  </div>
+  {message && <p class="alert" role="alert">{message}</p>}
+  <form method="post" action="/api/subscribe">
+    <label class="hp" aria-hidden="true">
+      Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" />
+    </label>
+    <input type="hidden" name="ts" value={Date.now()} />
+    <div class="row">
+      <label for="email" class="hp">Email address</label>
+      <input id="email" type="email" name="email" required maxlength="254" placeholder="you@example.com" autocomplete="email" />
+      <button class="btn" type="submit">Sign me up</button>
+    </div>
+    {siteKey && <div class="cf-turnstile" data-sitekey={siteKey} data-size="flexible" data-theme="light" />}
+    <p class="note">By signing up you confirm you’re 21 or older. We only use your email to send the daily pair.</p>
+  </form>
+  {siteKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />}
+</section>
+
+<style>
+  .signup {
+    margin: 4rem auto 0;
+    max-width: 40rem;
+    background: var(--paper);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: 0 1px 0 var(--line);
+    display: grid;
+    gap: 1rem;
+  }
+  .signup h2 {
+    margin-bottom: 0.2rem;
+  }
+  .signup p {
+    margin: 0;
+  }
+  form {
+    display: grid;
+    gap: 0.8rem;
+  }
+  .row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .row input {
+    flex: 1 1 14rem;
+  }
+</style>

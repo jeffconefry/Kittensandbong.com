@@ -1,0 +1,42 @@
+---
+import { env } from 'cloudflare:workers';
+import Base from '../layouts/Base.astro';
+import Pair from '../components/Pair.astro';
+import Signup from '../components/Signup.astro';
+import { latestDay } from '../lib/db';
+import { nyDay } from '../lib/day';
+
+const today = nyDay();
+const pair = await latestDay(env.DB, today);
+const tipUrl = import.meta.env.PUBLIC_TIP_URL;
+
+Astro.response.headers.set('Cache-Control', 'public, max-age=60');
+---
+
+<Base image={pair?.cat.src_large}>
+  {
+    pair ? (
+      <Pair pair={pair} today={pair.day === today} />
+    ) : (
+      <section class="message">
+        <h1>Warming up.</h1>
+        <p>The first kitten and bong arrive at {env.SEND_HOUR ?? 7} a.m. Eastern. Sign up below and they’ll come to you.</p>
+      </section>
+    )
+  }
+
+  <p class="more">
+    <a href="/archive">See every past pair</a>
+    {tipUrl && <>· <a href={tipUrl} rel="noopener" target="_blank">Keep the kittens fed (tip jar)</a></>}
+  </p>
+
+  <Signup />
+</Base>
+
+<style>
+  .more {
+    text-align: center;
+    margin-top: 2.5rem;
+    color: var(--muted);
+  }
+</style>

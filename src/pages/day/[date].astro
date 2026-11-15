@@ -1,0 +1,30 @@
+---
+import { env } from 'cloudflare:workers';
+import Base from '../../layouts/Base.astro';
+import Pair from '../../components/Pair.astro';
+import { getDay } from '../../lib/db';
+import { DAY_RE, longDate, nyDay } from '../../lib/day';
+
+const { date = '' } = Astro.params;
+// Future days stay hidden even if they exist (e.g. published early by hand).
+const pair = DAY_RE.test(date) && date <= nyDay() ? await getDay(env.DB, date) : null;
+if (!pair) return new Response(null, { status: 404 }); // Astro serves the 404 page
+
+Astro.response.headers.set('Cache-Control', 'public, max-age=3600');
+---
+
+<Base
+  title={`${longDate(pair.day)} · Kittens & Bongs`}
+  description={`The kitten and the bong for ${longDate(pair.day)}.`}
+  image={pair.cat.src_large}
+>
+  <Pair pair={pair} today={pair.day === nyDay()} />
+  <p class="back"><a href="/archive">← Back to the archive</a></p>
+</Base>
+
+<style>
+  .back {
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+</style>

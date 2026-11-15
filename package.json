@@ -1,0 +1,30 @@
+{
+  "name": "kittensandbongs.com",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "db:migrate:local": "wrangler d1 migrations apply kittensandbongs --local",
+    "db:migrate:remote": "wrangler d1 migrations apply kittensandbongs --remote",
+    "daily:dev": "wrangler dev --config daily/wrangler.jsonc --test-scheduled --persist-to .wrangler/state",
+    "daily:deploy": "wrangler deploy --config daily/wrangler.jsonc",
+    "types": "wrangler types --strict-vars=false"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.4.8",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "astro": "^7.4.12"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.162.0"
+  }
+}

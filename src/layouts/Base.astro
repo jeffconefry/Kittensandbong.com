@@ -1,0 +1,93 @@
+---
+import '@fontsource-variable/fraunces/soft.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = 'Kittens & Bongs',
+  description = 'One cute kitten and one bong, every day. Humor for adults 21+.',
+  image,
+} = Astro.props;
+
+const indexable = import.meta.env.PUBLIC_SITE_INDEXABLE === 'true';
+const tipUrl = import.meta.env.PUBLIC_TIP_URL;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!indexable && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    {image && <meta property="og:image" content={image} />}
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    <meta name="rating" content="adult" />
+    <script is:inline>
+      try {
+        if (localStorage.getItem('kab-age') === 'ok') document.documentElement.classList.add('age-ok');
+      } catch (_) {}
+    </script>
+    <noscript><style>.gate { display: none !important; }</style></noscript>
+  </head>
+  <body>
+    <div class="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+      <div class="gate-card">
+        <p class="gate-emoji" aria-hidden="true">🐈 &amp; 💨</p>
+        <h2 id="gate-title">Are you 21 or older?</h2>
+        <p>This site has pictures of bongs next to pictures of kittens. That's the whole joke.</p>
+        <div class="gate-actions">
+          <button type="button" class="btn" data-age="yes">Yes, I'm 21+</button>
+          <a class="btn btn-quiet" href="https://www.google.com/search?q=cute+kittens">No, kittens only</a>
+        </div>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <a href="/" class="wordmark">Kittens <span class="amp">&amp;</span> Bongs</a>
+      <nav>
+        <a href="/archive">Archive</a>
+        <a href="/#signup">Get it daily</a>
+        {tipUrl && <a href={tipUrl} rel="noopener" target="_blank">Tip jar</a>}
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        One kitten, one bong, every day. Humor only: nothing here is for sale, and nothing here is advice. For adults 21+.
+      </p>
+      <p>
+        Photos provided by <a href="https://www.pexels.com" rel="noopener">Pexels</a> and credited to each photographer.
+        · <a href="/privacy">Privacy</a> · © {year} kittensandbongs.com
+      </p>
+    </footer>
+
+    <script>
+      const btn = document.querySelector<HTMLButtonElement>('[data-age="yes"]');
+      btn?.addEventListener('click', () => {
+        try {
+          localStorage.setItem('kab-age', 'ok');
+        } catch (_) {}
+        document.documentElement.classList.add('age-ok');
+      });
+    </script>
+  </body>
+</html>

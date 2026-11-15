@@ -1,0 +1,16 @@
+# Copy to .dev.vars for local development (never commit .dev.vars).
+# In production, add each of these in the Cloudflare dashboard:
+# Worker → Settings → Variables and Secrets → type "Secret".
+
+# https://www.pexels.com/api/ (free key)
+PEXELS_API_KEY=
+
+# Key for the email sending service (only read when EMAIL_PROVIDER isn't "log")
+EMAIL_API_KEY=
+
+# Cloudflare Turnstile secret. Required in production: signups are refused without it.
+TURNSTILE_SECRET_KEY=
+
+# Long random string. Lets you trigger the daily job by hand:
+#   curl -X POST -H "Authorization: Bearer $ADMIN_TOKEN" https://<site>/api/admin/run
+ADMIN_TOKEN=

@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import { TOKEN_RE } from '../lib/links';
+
+const token = Astro.url.searchParams.get('t') ?? '';
+const valid = TOKEN_RE.test(token);
+Astro.response.headers.set('Cache-Control', 'no-store');
+Astro.response.headers.set('Referrer-Policy', 'no-referrer');
+---
+
+<Base title="Unsubscribe · Kittens & Bongs">
+  <section class="message">
+    {
+      valid ? (
+        <>
+          <h1>Leaving us?</h1>
+          <p>One click and the daily email stops. No hard feelings, the kittens will understand.</p>
+          <form method="post" action="/api/unsubscribe">
+            <input type="hidden" name="t" value={token} />
+            <button class="btn" type="submit">Unsubscribe</button>
+          </form>
+        </>
+      ) : (
+        <>
+          <h1>That link didn’t work.</h1>
+          <p>Use the unsubscribe link at the bottom of any daily email.</p>
+        </>
+      )
+    }
+  </section>
+</Base>
